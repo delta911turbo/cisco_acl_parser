@@ -1,6 +1,7 @@
 <#
 .SYNOPSIS 
 Cisco ACL Raw Parser
+v1.1
 
 .DESCRIPTION
 	The script will take in a raw ACL file as input and generate a formated XML output file.
@@ -129,7 +130,7 @@ $null > $tempfile
 $null > $outputFile
 
 ## Set rejected lines file and clear it out ##
-$rejectedOutFile = "rejected.txt"
+$rejectedOutFile = $inputFile" - rejected.txt"
 $null > $rejectedOutFile
 
 ### Header and footer of XML file ###
@@ -703,4 +704,3 @@ write-progress -activity "Parsing ACL File" -status 'Progress->' -percentcomplet
 }
 
 $XMLfooter | out-file $outputFile -append
-
