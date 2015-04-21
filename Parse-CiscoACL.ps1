@@ -1,7 +1,7 @@
 <#
 .SYNOPSIS 
 Cisco ACL Raw Parser
-v1.2.5
+v1.2.8
 
 .DESCRIPTION
 	The script will take in a raw ACL file as input and generate a formated XML output file.
@@ -12,7 +12,7 @@ v1.2.5
 	file is not provided.
 	
 	If found that the output file already exist, you will be prompted to confirm or deny
-	overwrting the file.
+	overwriting the file.
 	
 	With the rejectedOutput switch you have the ability to enable output of all lines of the 
 	left over data from the raw ACL file. This is used to confirm all data was successfully 
@@ -64,8 +64,6 @@ if (!($inputFile)) {
 	
 } elseif (!(test-path $inputFile)) {
 
-	test-path $inputFile
-
 	write-host "Unable to location input file..." -foregroundcolor red -backgroundcolor black
 		
 	exit
@@ -86,7 +84,7 @@ if (!($outputFile)) {
 	
 	$outputFile = $inputFileName + ".xml"
 	
-	write-host "Generating outputFile based on inputFile name:" -foregroundcolor white -backgroundcolor black -nonewline; write-host $outputFile -foregroundcolor red -backgroundcolor black
+	write-host "Generating outputFile based on inputFile name: " -foregroundcolor white -backgroundcolor black -nonewline; write-host $outputFile -foregroundcolor red -backgroundcolor black
 	
 }
 
@@ -137,7 +135,7 @@ $rejectedOutFile = $inputFileName + " - rejected.txt"
 $null > $rejectedOutFile
 if ($rejectedOutput -eq "yes" -or $rejectedOutput -eq "y")  {
 		
-	write-host "Generating rejected line output file based on inputFile name:" -foregroundcolor white -backgroundcolor black -nonewline; write-host $rejectedOutFile -foregroundcolor red -backgroundcolor black 
+	write-host "Generating rejected line output file based on inputFile name: " -foregroundcolor white -backgroundcolor black -nonewline; write-host $rejectedOutFile -foregroundcolor red -backgroundcolor black 
 
 }
 
