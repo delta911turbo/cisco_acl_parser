@@ -1,21 +1,22 @@
 <#
 .SYNOPSIS 
 Cisco ACL Raw Parser
-v1.1
+v1.2.5
 
 .DESCRIPTION
 	The script will take in a raw ACL file as input and generate a formated XML output file.
 
 	The script will require an input file and produce an error if one is not provided.
 	
-	The script will also require an output file and produce an error if one is not provided.
+	The script will generate an output file name based on the input file name if an output
+	file is not provided.
 	
 	If found that the output file already exist, you will be prompted to confirm or deny
 	overwrting the file.
 	
-	With the rejectedOutput switch you have the ability to enable output all of the left over 
-	data from the raw ACL file. This is used to confirm all data was successfully parsed from 
-	the ACL. The switch is enabled with either a "yes" or "y"
+	With the rejectedOutput switch you have the ability to enable output of all lines of the 
+	left over data from the raw ACL file. This is used to confirm all data was successfully 
+	parsed from the ACL. The switch is enabled with either a "yes" or "y"
     
 .PARAMETER inputFile
      Path and file of the raw ACL fle
@@ -73,6 +74,8 @@ if (!($inputFile)) {
 	
 	write-host "Valid file provided for inputFile..." -foregroundcolor white -backgroundcolor black
 	
+	$inputFileName = (((get-childitem $inputFile).name) -Replace "\.[^.]+$","").toupper()
+	
 }
 
 ## Check if output file provided and already exist ##
@@ -81,7 +84,7 @@ if (!($outputFile)) {
 
 	write-host "No outputFile provided..." -foregroundcolor red -backgroundcolor black
 	
-	$outputFile = ($inputFile -replace "\.[^.]+$") + ".xml"
+	$outputFile = $inputFileName + ".xml"
 	
 	write-host "Generating outputFile based on inputFile name:" -foregroundcolor white -backgroundcolor black -nonewline; write-host $outputFile -foregroundcolor red -backgroundcolor black
 	
@@ -130,8 +133,13 @@ $null > $tempfile
 $null > $outputFile
 
 ## Set rejected lines file and clear it out ##
-$rejectedOutFile = $inputFile" - rejected.txt"
+$rejectedOutFile = $inputFileName + " - rejected.txt"
 $null > $rejectedOutFile
+if ($rejectedOutput -eq "yes" -or $rejectedOutput -eq "y")  {
+		
+	write-host "Generating rejected line output file based on inputFile name:" -foregroundcolor white -backgroundcolor black -nonewline; write-host $rejectedOutFile -foregroundcolor red -backgroundcolor black 
+
+}
 
 ### Header and footer of XML file ###
 
@@ -168,7 +176,7 @@ write-progress -activity "Parsing ACL File" -status 'Progress->' -percentcomplet
 	
 		$hashNumber = $lineSplit.count - 1
 		$hash = $lineSplit[$hashNumber]
-		$firewallName = (get-childitem $inputFile).name
+		$firewallName = $inputFileName
 		$extended = $lineSplit[4]
 		$interface = $lineSplit[1]
 		$protocol = $lineSplit[6]
@@ -273,7 +281,7 @@ write-progress -activity "Parsing ACL File" -status 'Progress->' -percentcomplet
 	
 		$hashNumber = $lineSplit.count - 1
 		$hash = $lineSplit[$hashNumber]
-		$firewallName = (get-childitem $inputFile).name
+		$firewallName = $inputFileName
 		$extended = $lineSplit[4]
 		$interface = $lineSplit[1]
 		$protocol = $lineSplit[6]
@@ -379,7 +387,7 @@ write-progress -activity "Parsing ACL File" -status 'Progress->' -percentcomplet
 	
 		$hashNumber = $lineSplit.count - 1
 		$hash = $lineSplit[$hashNumber]
-		$firewallName = (get-childitem $inputFile).name
+		$firewallName = $inputFileName
 		$extended = $lineSplit[4]
 		$interface = $lineSplit[1]
 		$protocol = $lineSplit[6]
@@ -484,7 +492,7 @@ write-progress -activity "Parsing ACL File" -status 'Progress->' -percentcomplet
 		
 		$hashNumber = $lineSplit.count - 1
 		$hash = $lineSplit[$hashNumber]
-		$firewallName = (get-childitem $inputFile).name
+		$firewallName = $inputFileName
 		$extended = $lineSplit[4]
 		$interface = $lineSplit[1]
 		$protocol = $lineSplit[6]
@@ -591,7 +599,7 @@ write-progress -activity "Parsing ACL File" -status 'Progress->' -percentcomplet
 		
 		$hashNumber = $lineSplit.count - 1
 		$hash = $lineSplit[$hashNumber]
-		$firewallName = (get-childitem $inputFile).name
+		$firewallName = $inputFileName
 		$extended = $lineSplit[4]
 		$interface = $lineSplit[1]
 		$protocol = $lineSplit[6]
@@ -693,7 +701,7 @@ write-progress -activity "Parsing ACL File" -status 'Progress->' -percentcomplet
 	else {
 	
 		if ($rejectedOutput -eq "yes" -or $rejectedOutput -eq "y")  {
-	
+		
 			$line | out-file $rejectedOutFile -append
 		
 		}
@@ -704,3 +712,4 @@ write-progress -activity "Parsing ACL File" -status 'Progress->' -percentcomplet
 }
 
 $XMLfooter | out-file $outputFile -append
+
