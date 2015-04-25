@@ -228,9 +228,7 @@ foreach ($line in $inputFileContent) {
 	$ipRange1 = $null
 	$ipRange2 = $null
  
- #$b = ($a | Select-String  '(text-underline:none[^/"]*)' | %{$_.matches[0].value}).replace("text-underline:none'>","").replace(" <","").replace("<","").replace("   "," ")
-		
-#		$c = ($a | Select-String  'google.com/file') -replace '<a   href="',"" -replace '"   itemprop=url>',""
+
 	}
 }
 
