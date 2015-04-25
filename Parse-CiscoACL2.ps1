@@ -4,19 +4,7 @@ Cisco ACL Parser
 v2.15b
 
 .DESCRIPTION
-	The script will take in a raw ACL file as input and generate a formated XML output file.
-
-	The script will require an input file and produce an error if one is not provided.
 	
-	The script will generate an output file name based on the input file name if an output
-	file is not provided.
-	
-	If found that the output file already exist, you will be prompted to confirm or deny
-	overwriting the file.
-	
-	With the rejectedOutput switch you have the ability to enable output of all lines of the 
-	left over data from the raw ACL file. This is used to confirm all data was successfully 
-	parsed from the ACL. The switch is enabled with either a "yes" or "y"
     
 .PARAMETER inputFile
      Path and file of the raw ACL fle
@@ -29,13 +17,7 @@ v2.15b
 	the raw input file that do not contain information that used in output file.
 
 .EXAMPLE
-	./Parse-CiscoACL -inputFile FIREWALLACL01 -outputFile FirewallACL.XML
 
-	./Parse-CiscoACL FIREWALLACL01 FirewallACL.XML
-
-	./Parse-CiscoACL FIREWALLACL01 FirewallACL.XML -rejectedOutput yes
-	
-	./Parse-CiscoACL FIREWALLACL01 FirewallACL.XML yes
 	
 .NOTES
 	Due to the 7 different standards used for output within the raw ACL file, checks for each type of
