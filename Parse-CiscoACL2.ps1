@@ -1,7 +1,7 @@
 <#
 .SYNOPSIS 
 Cisco ACL Parser
-v2.25c
+v2.26c
 
 .DESCRIPTION
 	The script will take in a raw ACL file as input and generate a formated XML output file.
@@ -153,6 +153,7 @@ $firewallName = $inputFileName
 ### Header and footer of XML file ###
 
 $XMLheader = @"
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ACLParse>
 "@
 
