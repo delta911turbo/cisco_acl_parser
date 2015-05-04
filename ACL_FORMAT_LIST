@@ -1,0 +1,14 @@
+access-list 110 deny tcp any 169.223.252.0 0.0.3.255 fragments
+access-list 110 permit tcp host 169.254.254.1  host 169.223.252.1  eq bgp
+access-list 110 permit tcp host 169.254.254.1  eq bgp host 169.223.252.1
+access-list 102 permit tcp any 172.18.0.0 0.0.255.255 established
+deny ip 172.18.0.0 0.0.255.255 host 172.16.40.10 log
+access-list 10 deny host 192.168.30.2
+access-list 10 permit any
+access-list 77 standard permit host 10.1.10.123
+access-list OSPF standard permit 192.168.1.0 255.255.255.0
+
+access-list {100-199} {permit | deny} protocol source-addr [source-mask] [operator operand] destination-addr [destination-mask] [operator operand]
+[established]
+access-list-number {deny | permit} protocol source source-wildcard destination destination-wildcard [precedence precedence] [tos tos] [fragments] [time-range time-range-name] [log]
+#[sequence-number] {permit | deny} protocol source source-wildcard destination destination-wildcard [option option-value] [precedence precedence] [tos tos] [fragments] [time-range time-range-name] [log]
