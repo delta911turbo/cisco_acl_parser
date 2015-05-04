@@ -1,7 +1,7 @@
 <#
 .SYNOPSIS 
 Cisco ACL Parser
-v2.26c
+v2.27c
 
 .DESCRIPTION
 	The script will take in a raw ACL file as input and generate a formated XML output file.
@@ -153,7 +153,6 @@ $firewallName = $inputFileName
 ### Header and footer of XML file ###
 
 $XMLheader = @"
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ACLParse>
 "@
 
@@ -178,7 +177,7 @@ foreach ($line in $inputFileContent) {
 
 	$line = (($line.replace("<--- More --->","")).trim()).replace("  ","")
 	
-	if ($line -match "access-list" -and $line -match "permit" -or $line -match "deny" -and $line -notmatch "object-group" -and $line -notmatch "remark" -and $line -notmatch "cache") {
+	if ($line -match "permit" -or $line -match "deny" -and $line -notmatch "object-group" -and $line -notmatch "remark" -and $line -notmatch "cache") {
 
 		## Matches hash based on finding 0x and 8 more characters/numbers ##
 		$hash = ( $line | Select-String '0x[a-z0-9]{8}' ) | % { $_.Matches } | % { $_.Value }
