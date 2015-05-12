@@ -1,11 +1,10 @@
 <#
 .SYNOPSIS 
 Cisco ACL Parser
-v2.27c
+v2.30c
 
 .DESCRIPTION
 	The script will take in a raw ACL file as input and generate a formated XML output file.
-
 	The script will require an input file and produce an error if one is not provided.
 	
 	The script will generate an output file name based on the input file name if an output
@@ -20,19 +19,15 @@ v2.27c
     
 .PARAMETER inputFile
      Path and file of the raw ACL fle
-
 .PARAMETER outputFile
 	Path and file of the XML output file
 	
 .PARAMETER rejectedOutput <string>
 	Switch used to enable the rejected line output file. Used to output all lines found in
 	the raw input file that do not contain information that used in output file.
-
 .EXAMPLE
 	./Parse-CiscoACL -inputFile FIREWALLACL01 -outputFile FirewallACL.XML
-
 	./Parse-CiscoACL FIREWALLACL01 FirewallACL.XML
-
 	./Parse-CiscoACL FIREWALLACL01 FirewallACL.XML -rejectedOutput yes
 	
 	./Parse-CiscoACL FIREWALLACL01 FirewallACL.XML yes
@@ -46,7 +41,6 @@ v2.27c
 	http://www.cisco.com/c/en/us/td/docs/security/asa/asa82/configuration/guide/config/acl_extended.html
 	http://www.cisco.com/c/en/us/td/docs/security/asa/asa-command-reference/S/cmdref3/s2.html
 	http://www.cisco.com/c/en/us/td/docs/security/asa/asa90/configuration/guide/asa_90_cli_config/acl_extended.html
-
 .LINK
 	https://github.com/delta911turbo/cisco_acl_parser
 #>
@@ -173,7 +167,7 @@ $REGEX_portvalid = "([1-9][0-9]{0,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2
 
 foreach ($line in $inputFileContent) {
 
-	write-progress -activity "Parsing ACL File" -status 'Progress->' -percentcomplete ($i/$inputFileContent.count*10)
+	write-progress -activity "Parsing ACL File" -status 'Progress->' -percentcomplete ($i/$inputFileContent.count*100)
 
 	$line = (($line.replace("<--- More --->","")).trim()).replace("  ","")
 	
@@ -352,7 +346,6 @@ foreach ($line in $inputFileContent) {
 	
 ## On-screen output for debugging purposes ##
 $null = @'	
-
 write-host "======================="
 	$ipAddresses
 	$sourceIP
